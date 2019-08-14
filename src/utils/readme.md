@@ -19,3 +19,10 @@ http://192.168.1.247:8384/api/v1/search/get_post_by_keyword
 --input params
 keyword 
 page
+
+===================
+Count by Keyword
+http://192.168.1.247:8384/api/v1/search/count_by_keyword?keyword=kinh&type=post
+input params
+keyword
+type ['post','','res_address']

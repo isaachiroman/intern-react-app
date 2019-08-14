@@ -1,6 +1,7 @@
 import { SEARCH, SEARCH_STARTED, SEARCH_FAILUE, LIST_SUGGESTION } from '../constants/index';
 const initState = {
     listSearch: [],
+    payload: [],
     listSuggesstion: []
 }
 /**
@@ -16,12 +17,13 @@ export default function searchReducer(state = initState, action) {
                 loading: true
             }
         case SEARCH:
+            console.log(action)
             return {
                 ...state,
                 // listInfo: action.payload
                 loading: false,
                 error: null,
-                listSearch: [...state.listSearch, action.payload]
+                listSearch: [...action.payload] 
             };
         case SEARCH_FAILUE:
             return {

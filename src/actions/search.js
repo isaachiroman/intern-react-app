@@ -6,13 +6,13 @@ import Axios from 'axios';
 export const search = (keyword) => {
     return (dispatch, getState) => {
         dispatch(searchStarted());
-        console.log('current state: ', getState());
+        // console.log('current state: ', getState());
         const URL = `${URL_FETCH_LIST_ALL_RESULT}/?keyword=${keyword}`;
         Axios.get(URL)
             .then( resp => {
                 let respt = resp.data;
-                console.log({ respt });
-                STORE.dispatch({
+                // console.log({ respt });
+                dispatch({
                     type: SEARCH,
                     payload: respt
                 });
@@ -21,18 +21,18 @@ export const search = (keyword) => {
     }
     
 }
-export const suggestion = (keyword, name) =>{
-    return dispatch => {
-        const URL = `${URL_FETCH_LIST_ALL_RESULT}/?keyword=${keyword}`;
-        Axios.get(URL)
-            .then( resp => {
-                let respt = resp.data;
-                console.log({ respt });
+// export const suggestion = (keyword, name) =>{
+//     return dispatch => {
+//         const URL = `${URL_FETCH_LIST_ALL_RESULT}/?keyword=${keyword}`;
+//         Axios.get(URL)
+//             .then( resp => {
+//                 let respt = resp.data;
+//                 console.log({ respt });
                 
-            })
-            .catch( err => console.log({ err: err.message }));
-    }
-}
+//             })
+//             .catch( err => console.log({ err: err.message }));
+//     }
+// }
 const searchStarted = () => ({
     type: SEARCH_STARTED
   });

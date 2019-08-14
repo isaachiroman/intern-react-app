@@ -11,12 +11,13 @@ class HomeInput extends Component {
             [name] : value
         })
         this.props.onSearch(e.target.value)
-        console.log(this.state);
+        // console.log(this.state);
         
     }
     render() {
-        const { keyword } = this.props;
-        console.log(keyword + 'keyword---')
+        const { keyword, data } = this.props;
+        // console.log(keyword + 'keyword---')
+        // console.log(this.state)
         return (
             <>
                 <div className="center-content d-flex flex-column justify-content-center">
@@ -30,13 +31,17 @@ class HomeInput extends Component {
                         <div className="input-search__container d-flex justify-content-center">
                             <div className="w-100 input-search__content collapsed" id="autoComplete__content">
                                 <input 
-                                    className="form-control" id="autoComplete" 
+                                    className="form-control" id="autoComplete"
+                                    type="search"
+                                    // onChange={onChange}
+                                    // onKeyDown={onKeyDown}
+                                    // value={userInput} 
                                     name={keyword}
                                     type="text" 
                                     placeholder="Search ..." tabIndex={1} 
                                     onChange={e => this._handleChange(e)}
                                     />
-                                    <Autocomplete  DATA= { this.props.DATA }/>
+                                    <Autocomplete callback={ this.props.callback } suggestions= { data } />
                             </div>
                         </div>
                     </div>
@@ -47,7 +52,7 @@ class HomeInput extends Component {
 }
 const mapStateToProps = state => {
     return {
-        DATA:state.search.listSearch 
+        data: state.search.listSearch 
     }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -56,6 +61,6 @@ const mapDispatchToProps = (dispatch) => {
       onSearch: keyword => {
           dispatch(search(keyword));
       }
-    }
   }
-export default connect(null,mapDispatchToProps)(HomeInput);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(HomeInput);
