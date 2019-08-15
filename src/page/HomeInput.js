@@ -8,18 +8,18 @@ class HomeInput extends Component {
         const target = e.target;
         const { name, value }  = target;
         this.setState({
-            [name] : value
-        })
-        this.props.onSearch(e.target.value)
-        // console.log(this.state);
+            [name] : value,
+            // activeSuggestion: 0,
+            // filteredSuggestions: [],
+            // showSuggestion: false,
+            // searchInput: e.currentTarget.innerText
+        });
+        this.props.onSearch(e.target.value);
         
     }
     render() {
-        const { keyword, data } = this.props;
-        // console.log(keyword + 'keyword---')
-        // console.log(this.state)
         return (
-            <>
+            <React.Fragment>
                 <div className="center-content d-flex flex-column justify-content-center">
                     <div className="homepage--logo">
                         <div className="logo--container d-flex justify-content-center"><img src="../../assets/img/asset-logo.png" alt="" /></div>
@@ -30,23 +30,12 @@ class HomeInput extends Component {
                     <div className="homepage--input-search">
                         <div className="input-search__container d-flex justify-content-center">
                             <div className="w-100 input-search__content collapsed" id="autoComplete__content">
-                                <input 
-                                    className="form-control" id="autoComplete"
-                                    type="search"
-                                    // onChange={onChange}
-                                    // onKeyDown={onKeyDown}
-                                    // value={userInput} 
-                                    name={keyword}
-                                    type="text" 
-                                    placeholder="Search ..." tabIndex={1} 
-                                    onChange={e => this._handleChange(e)}
-                                    />
-                                    <Autocomplete callback={ this.props.callback } suggestions= { data } />
+                                <Autocomplete  suggestions= { this.props.data } to= { '/search'} onSearch={ this.props.onSearch }/>
                             </div>
                         </div>
                     </div>
                 </div>
-            </>
+            </React.Fragment>
         );
     }
 }
@@ -57,7 +46,6 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-      // dispatching plain actions
       onSearch: keyword => {
           dispatch(search(keyword));
       }

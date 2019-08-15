@@ -1,52 +1,94 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+import { withRouter } from 'react-router'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Autocomplete extends Component {
     static propTypes = {
     suggestions: PropTypes.instanceOf(Array)
     };
     static defaultProperty = {
-        suggestions: []
+        suggestions: [],
+        searchInput: ''
     };
     constructor(props) {
         super(props);
         this.state = {
         activeSuggestion: 0,
-        filteredSuggestions: false,
-        searchInput: ''
+        showSuggestions: false,
+        filteredSuggestions: [],
+        searchInput: '',
+        suggestions: []
         }
     }
 
     componentWillReceiveProps(nextProps) {
-      console.log(nextProps.suggestions)
-    this.setState({
-        suggestions: nextProps.suggestions
-    })
+        this.setState({
+            suggestions: nextProps.suggestions
+        });
     }
-    callback = (listSearch) => {
-        return this.props.callback(listSearch);
+
+    onChange = e => {
+        // const filteredSuggestions = this.state.suggestions.filter(
+        //     suggestion => suggestion.(this.state.searchInput.toLowerCase()) -1
+        // );
+        this.setState({
+            activeSuggestion: 0,
+            showSuggestions: true,
+            searchInput: e.target.value,
+        });
     }
-    fillComplete = () => {
-        if (this.props.searchInput.length > 0) {
-            this.state.suggestions.map((suggestion, index) => {
-                
-                return <li key={index} onClick={ this.props.callback }></li>
-            })
+
+    onClick = e => {
+        this.setState({
+            activeSuggestion: 0,
+            showSuggestions: false,
+            searchInput: e.target.innerText,
+            filteredSuggestions: []
+        })
+    }
+
+    onKeyDown = (e) => {
+        // console.log(e.target.value.trim().length)
+        const { filteredSuggestions, activeSuggestion } = this.state;
+        if ( e.target.value.trim().toLowerCase().length ) {
+            this.setState({
+                showSuggestions: false,
+                searchInput: filteredSuggestions[activeSuggestion]
+            });
         }
+        this.props.onSearch(e.target.value)
+        if (e.keyCode === 13) {
+            this.props.history.push(this.props.to);
+        }
+
+        return this.setState({
+            showSuggestions: true
+        });
     }
+
+    sugesstion = (suggestions) => {
+        if(this.state.filteredSuggestions && this.state.searchInput) {
+            return this.props.suggestions.map((suggestion, index) => { 
+                return  <li key={index}>{suggestion.name}</li> 
+            }); 
+        }
+        return ;
+    };
     render () {
-        const { suggestions } = this.props;
-        const { searchInput } = this.state;
+       
         return (
-            <React.Fragment>
-                {  
-                    searchInput.length > 0 ? (
-                        suggestions.map((suggestion,index) => { return <li key={index}>{suggestion.name}</li> }) 
-                    ) : ''
-                    
-                } 
-            </React.Fragment>
+                <React.Fragment>
+                    <input className="form-control"  
+                        onChange={ this.onChange } onKeyDown={ this.onKeyDown }
+                        onClick={  this.onClick }
+                     />
+                    <ul>
+                        { this.sugesstion(this.props.suggestions) }
+                    </ul>
+                </React.Fragment>
+                
         );
     }
 }
-export default Autocomplete;
+export default withRouter(Autocomplete);

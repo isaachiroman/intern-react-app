@@ -19,20 +19,8 @@ export const search = (keyword) => {
             } )
             .catch( err =>  console.log({err: err.message }) )
     }
-    
 }
-// export const suggestion = (keyword, name) =>{
-//     return dispatch => {
-//         const URL = `${URL_FETCH_LIST_ALL_RESULT}/?keyword=${keyword}`;
-//         Axios.get(URL)
-//             .then( resp => {
-//                 let respt = resp.data;
-//                 console.log({ respt });
-                
-//             })
-//             .catch( err => console.log({ err: err.message }));
-//     }
-// }
+
 const searchStarted = () => ({
     type: SEARCH_STARTED
   });

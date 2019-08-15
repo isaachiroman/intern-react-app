@@ -31,3 +31,14 @@
     transform: rotate(360deg);
   }
 }
+
+.w-100 ul {
+  width: 100%;
+  background: #f1eeee;
+  list-style: none;
+  text-align: left;
+  padding-left: 31px;
+}
+.w-100 ul li {
+  
+}

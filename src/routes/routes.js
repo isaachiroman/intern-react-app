@@ -8,7 +8,7 @@ class routes extends Component {
             
             <>
                 <Route  exact path="/" component={Homepage} />
-                <Route apath="/search" component={Search} />
+                <Route path="/search" component={Search} />
             </>
         );
     }

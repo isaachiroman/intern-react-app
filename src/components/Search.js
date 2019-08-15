@@ -1,7 +1,28 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import SearchPostResult from './Searchresult/SearchPostResult';
 
 class Search extends Component {
+   
+    // componentWillReceiveProps(nextProps) {
+    //     console.log(nextProps);
+    // }
     render() {
+        
+        const searchResult = this.props.data.map((item, index) => {
+            if (item.type === 'post') {
+                return <SearchPostResult key={index} item={item}/>
+            }
+            // else if (item.type === 'product') {
+            //     return <SearchProductResult key={index} item={item}/>
+            // }
+            // else if (item.type === 'res_address') {
+            //     return <SearchResAddresstResult key={index} item={item}/>
+            // }
+           
+        })
+        // console.log(searchResult)
+        console.log(this.props.data)
         return (
             <>
                 <div>
@@ -148,6 +169,7 @@ class Search extends Component {
                                     </div>
                                     </div>
                                 </div>
+                                { searchResult }
                                 {/* SEARCH RESULT ITEM*/}
                                 <div className="rp-search-result-item">
                                     <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
@@ -288,6 +310,7 @@ class Search extends Component {
                                     </div>
                                     </div>
                                 </div>
+                                {/* nha rieng end */}
                                 <div className="rp-search-result-item">
                                     <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
                                     <div className="sr-item__poster">
@@ -635,6 +658,9 @@ class Search extends Component {
                                 </div>
                             </div>
                             </div>
+
+
+
                         </div>
                         <div className="result-pages__footer layout-footer">
                             <div className="result-pages__footer-container">
@@ -822,5 +848,9 @@ class Search extends Component {
         );
     }
 }
-
-export default Search;
+const mapStateToProps = state => {
+    return {
+        data: state.search.listSearch 
+    }
+}
+export default connect(mapStateToProps, null)(Search);

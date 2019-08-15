@@ -17,7 +17,7 @@ export default function searchReducer(state = initState, action) {
                 loading: true
             }
         case SEARCH:
-            console.log(action)
+            // console.log(action)
             return {
                 ...state,
                 // listInfo: action.payload

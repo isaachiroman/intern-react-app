@@ -295,6 +295,7 @@
 .rp-search-result-item .sr-item__details {
   font-size: 16px;
   width: 100%;
+  text-align: left;
   font-weight: normal; }
 
 .item-details__title .title--name {
@@ -310,6 +311,7 @@
   color: #e8bb20; }
 
 .item-details__title .ids-title--category {
+  display: inline-block;
   color: #757575; }
 
 .item-details__title .ids-title--category .ids-title--category {
@@ -320,6 +322,8 @@
 .item-details__title .ids-title--date-posted {
   font-size: 14px;
   font-style: italic;
+  display: inline-block;
+  margin-left: 14px;
   color: #757575; }
 
 /* Post content */
