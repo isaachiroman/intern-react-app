@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
+import { connect } from 'react-redux'
+import Post from '../Post/Post';
 
 class SearchPostResult extends Component {
+    
+   
+    showPopup = () => {
+        // alert(this.props.dataPost)
+        const { isShowPopup } = this.props;
+        alert(isShowPopup)
+    }
+    hidePopup = () => {
+        this.setState({ isShowPopup: false })
+    }
     render() {
-        console.log(this.props.item)
+        // console.log(this.props.item)
         const { item } = this.props;
         return (
             <div>
@@ -20,12 +30,14 @@ class SearchPostResult extends Component {
                             <div className="ids-title--header d-flex"><a className="title--name" href="#">Asset News</a>
                                 <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 4,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
                             </div>
-                            <p className="mb-0 ids-title--category">đã đăng một bài viết trong <a className="ids-title--category" href="/ket-qua/thong-tin">{ item.category }</a></p>
+                            <p className="mb-0 ids-title--category">đã đăng một bài viết trong <a className="ids-title--category" href="/ket-qua/thong-tin">Thong tin</a></p>
                             <p className="mb-0 ids-title--date-posted">15 ngày trước</p>
                             </div>
                         </div>
                         <div className="item-details__post">
-                            <div className="ids-post--title"><a href="#">{ item.name }</a></div>
+                            <div onClick={ this.showPopup } className="ids-post--title">
+                                <a  href="">{ item.name }</a>
+                            </div>
                             <div className="ids-post--content"><span>
                                { item.short_description }</span></div>
                         </div>
@@ -59,7 +71,8 @@ class SearchPostResult extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.search.listSearch 
+        dataPost: state.search.listSearch ,
+        isShowPopup : state.search.isShowPopup
     }
 }
 export default connect(mapStateToProps, null)(SearchPostResult);

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class SearchResAddressResult extends Component {
     render() {
+        const { item } = this.props;
         return (
             <div>
                 <div className="rp-search-result-item">
@@ -38,7 +40,7 @@ class SearchResAddressResult extends Component {
                             <div className="ids-title--header d-flex"><a className="title--name" href="#">Asset data team</a>
                                 <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 3,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
                             </div>
-                            <p className="mb-0 ids-title--category">đã đăng một <a className="ids-title--category" href="/ket-qua/thong-tin">Con đường</a> </p>
+                            <p className="mb-0 ids-title--category">đã đăng một <a className="ids-title--category" href="/ket-qua/thong-tin">   </a> </p>
                             <p className="mb-0 ids-title--date-posted">10 ngày trước</p>
                             </div>
                         </div>

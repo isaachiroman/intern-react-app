@@ -1,8 +1,10 @@
-import { SEARCH, SEARCH_STARTED, SEARCH_FAILUE, LIST_SUGGESTION } from '../constants/index';
+import { SEARCH, SEARCH_STARTED, SEARCH_FAILUE, LIST_SUGGESTION, COUNT_SEARCH_RESULT } from '../constants/index';
 const initState = {
     listSearch: [],
     payload: [],
-    listSuggesstion: []
+    listSuggesstion: [],
+    totalResult: 0,
+    isShowPopup: false
 }
 /**
  * 
@@ -20,10 +22,9 @@ export default function searchReducer(state = initState, action) {
             // console.log(action)
             return {
                 ...state,
-                // listInfo: action.payload
                 loading: false,
                 error: null,
-                listSearch: [...action.payload] 
+                listSearch: [...action.payload],
             };
         case SEARCH_FAILUE:
             return {
@@ -37,6 +38,14 @@ export default function searchReducer(state = initState, action) {
                 loading:false,
                 error: null,
                 listSuggesstion: [...state.listSuggesstion, action.payload]
+            }
+        case COUNT_SEARCH_RESULT:
+            // console.log(action.totalResult)
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                totalResult: action.totalResult
             }
         default:
             return state;

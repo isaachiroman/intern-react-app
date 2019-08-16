@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 class SearchProductResult extends Component {
+    
     render() {
+        const { item } = this.props;
         return (
             <div>
                 <div className="rp-search-result-item">

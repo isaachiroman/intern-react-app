@@ -30,7 +30,7 @@ class HomeInput extends Component {
                     <div className="homepage--input-search">
                         <div className="input-search__container d-flex justify-content-center">
                             <div className="w-100 input-search__content collapsed" id="autoComplete__content">
-                                <Autocomplete  suggestions= { this.props.data } to= { '/search'} onSearch={ this.props.onSearch }/>
+                                <Autocomplete suggestions={ this.props.data } to={ '/search' } onSearch={ this.props.onSearch }/>
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@ const mapStateToProps = state => {
         data: state.search.listSearch 
     }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
       onSearch: keyword => {
           dispatch(search(keyword));

@@ -1,28 +1,46 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SearchPostResult from './Searchresult/SearchPostResult';
-
+import SearchProductResult from './Searchresult/SearchProductResult';
+import SearchResAddressResult from './Searchresult/SearchResAddressResult';
+import Pagination from './Pagination/Pagination';
 class Search extends Component {
-   
-    // componentWillReceiveProps(nextProps) {
-    //     console.log(nextProps);
+    state = {
+        allSearchPostResult: [],
+        currentSearchPostResult: [],
+        currentPage: null,
+        totalPages: null,
+    };
+    componentDidMount() {
+        const allSearchs = this.props.data;
+        this.setState({ allSearchs });
+    }
+
+    // onPageChanged = e => {
+    //     const { allSearchs } = this.state;
+    //     const { currentPage, totalPages, pageLimit } = this.props.data;
+    //     const offset = (currentPage -1) * pageLimit;
+    //     const currentSearchPostResult = allSearchs.slice(offset, offset + pageLimit);
+
+    //     this.setState({ currentPage, currentSearchPostResult, totalPages })
     // }
+    
     render() {
-        
-        const searchResult = this.props.data.map((item, index) => {
-            if (item.type === 'post') {
-                return <SearchPostResult key={index} item={item}/>
+        const { data, totalResult } = this.props;
+        // const totalSearchResult = allSearchPostResult.length;
+        const searchResult = data.map((item, index) => {
+            switch (item.type) {
+                case 'post':
+                    return <SearchPostResult key={ index } item={ item }/>
+                case '':
+                    return <SearchProductResult key={ index } item={ item }/>
+                case 'res_address':
+                    return <SearchResAddressResult key={ index } item={ item }/>
+                default:
+                    break;
             }
-            // else if (item.type === 'product') {
-            //     return <SearchProductResult key={index} item={item}/>
-            // }
-            // else if (item.type === 'res_address') {
-            //     return <SearchResAddresstResult key={index} item={item}/>
-            // }
-           
-        })
-        // console.log(searchResult)
-        console.log(this.props.data)
+        });
+
         return (
             <>
                 <div>
@@ -105,562 +123,36 @@ class Search extends Component {
                             <div className="result-pages__body-container container">
                             <div className="result-pages__search-result">
                                 <div className="rp-search-result__header">
-                                <div className="text-result">Khoảng <strong>1.782</strong> kết quả</div>
-                                <div className="search-result__header-map">
-                                    <div className="header-map__container">
-                                    <div className="header-map__main">
-                                        <div className="header-map--map">
-                                        <div className="header-map__map-group"><img src="../../assets/img/result-map.jpg" alt="" /></div>
+                                <div className="text-result">Có khoảng <strong> { totalResult.total_search } </strong> kết quả tìm thấy</div>   
+                                    <div className="search-result__header-map">
+                                        <div className="header-map__container">
+                                        <div className="header-map__main">
+                                            <div className="header-map--map">
+                                            <div className="header-map__map-group"><img src="../../assets/img/result-map.jpg" alt="" /></div>
+                                            </div>
+                                        </div>
+                                        <div className="header-map__details">
+                                            <div className="map-details--name"><span>Lý Chính Thắng</span></div>
+                                            <div className="map-details--address"><span>Quận 3, Tp Hồ Chí Minh</span></div>
+                                        </div>
                                         </div>
                                     </div>
-                                    <div className="header-map__details">
-                                        <div className="map-details--name"><span>Lý Chính Thắng</span></div>
-                                        <div className="map-details--address"><span>Quận 3, Tp Hồ Chí Minh</span></div>
-                                    </div>
-                                    </div>
-                                </div>
                                 </div>
                                 <div className="rp-search-result__items">
-                                {/* SEARCH RESULT ITEM*/}
-                                <div className="rp-search-result-item">
-                                    <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
-                                    <div className="sr-item__poster">
-                                        <div className="poster--avatar"><a href="#"><img src="../../../assets/img/Rectangle 97.png" alt="" /></a></div>
-                                    </div>
-                                    <div className="sr-item__details">
-                                        <div className="item-details__container">
-                                        <div className="item-details__title">
-                                            <div className="ids-title__content">
-                                            <div className="ids-title--header d-flex"><a className="title--name" href="#">Asset News</a>
-                                                <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 4,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
-                                            </div>
-                                            <p className="mb-0 ids-title--category">đã đăng một bài viết trong <a className="ids-title--category" href="/ket-qua/thong-tin">Thông tin</a></p>
-                                            <p className="mb-0 ids-title--date-posted">15 ngày trước</p>
-                                            </div>
-                                        </div>
-                                        <div className="item-details__post">
-                                            <div className="ids-post--title"><a href="#">Tòa nhà Lý Chính Thắng đang trong giai đoạn hoàn thiện</a></div>
-                                            <div className="ids-post--content"><span>
-                                                Ngày 10-12/05: Có 123 thông báo kế hoạch lựa chọn nhà thầu chậm .... 1527/QĐ-UBND ngày
-                                                14/02/2019; KHLCNT của Ban Quản lý dự án đầu tư xây .... KHLCNT của Sở Tài chính tỉnh Hưng
-                                                …. cho dự án “Mua sắm thiết bị định .... Hạng mục: Xóm Ao Vàng, Cổ Rùa, Gò Chè, Phúc Lộc,
-                                                Quyết Thắng, Tân ...</span></div>
-                                        </div>
-                                        <div className="item-details__actions">
-                                            <div className="action-buttons-bottom">
-                                            <a href="#" className="btn -marked">
-                                                <span className="fa fa-star icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -comment">
-                                                <span className="fa fa-comment-o icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -liked">
-                                                <span className="-ap  icon-like2 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -share">
-                                                <span className="-ap  icon-share4 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap  icon-mail6 icon" /> 10
-                                            </a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
                                 { searchResult }
                                 {/* SEARCH RESULT ITEM*/}
-                                <div className="rp-search-result-item">
-                                    <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
-                                    <div className="sr-item__poster">
-                                        <div className="poster--avatar"><a href="#"><img src="../../../assets/img/1pcs-hot-kawaii-small-teddy-bears-plush-toys.png" alt="" /></a></div>
-                                    </div>
-                                    <div className="sr-item__details">
-                                        <div className="item-details__container">
-                                        <div className="item-details__title">
-                                            <div className="ids-title__content">
-                                            <div className="ids-title--header d-flex"><a className="title--name" href="#">Duc Le</a>
-                                                <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 3,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
-                                            </div>
-                                            <p className="mb-0 ids-title--category">đã đăng một bài viết trong <a className="ids-title--category" href="/ket-qua/thong-tin">Thông tin</a></p>
-                                            <p className="mb-0 ids-title--date-posted">10 ngày trước</p>
-                                            </div>
-                                        </div>
-                                        <div className="item-details__post">
-                                            <div className="ids-post--title"><a href="#">Lý Chính Thắng khu đô thị tương lai đang trong giai đoạn hoàn thiện</a></div>
-                                            <div className="ids-post--content"><span>
-                                                Ngày 10-12/05: Có 123 thông báo kế hoạch lựa chọn nhà thầu chậm .... 1527/QĐ-UBND ngày
-                                                14/02/2019; KHLCNT của Ban Quản lý dự án đầu tư xây .... KHLCNT của Sở Tài chính tỉnh Hưng
-                                                …. cho dự án “Mua sắm thiết bị định .... Hạng mục: Xóm Ao Vàng, Cổ Rùa, Gò Chè, Phúc Lộc,
-                                                Quyết Thắng, Tân ...</span></div>
-                                        </div>
-                                        <div className="item-details__actions">
-                                            <div className="action-buttons-bottom">
-                                            <a href="#" className="btn -marked">
-                                                <span className="fa fa-star icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -comment">
-                                                <span className="fa fa-comment-o icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -liked">
-                                                <span className="-ap  icon-like2 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -share">
-                                                <span className="-ap  icon-share4 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap  icon-mail6 icon" /> 10
-                                            </a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                                
                                 </div>
-                                <div className="rp-search-result-item">
-                                    <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
-                                    <div className="sr-item__poster">
-                                        <div className="poster--avatar"><a href="#"><img src="../../../assets/img/1pcs-hot-kawaii-small-teddy-bears-plush-toys.png" alt="" /></a></div>
-                                    </div>
-                                    <div className="sr-item__details">
-                                        <div className="item-details__container">
-                                        <div className="item-details__title">
-                                            <div className="ids-title__content">
-                                            <div className="ids-title--header d-flex"><a className="title--name" href="#">Asset data team</a>
-                                                <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 3,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
-                                            </div>
-                                            <p className="mb-0 ids-title--category">đã đăng một bài viết trong <a className="ids-title--category" href="/ket-qua/thong-tin">Nhà riêng</a> cùng với <a href="#" className="ids-title--category">Homekeys 97891</a> cập nhật trạng thái <span className="red bold">Bán</span></p>
-                                            <p className="mb-0 ids-title--date-posted">10 ngày trước</p>
-                                            </div>
-                                        </div>
-                                        <div className="item-details__post">
-                                            <div className="realestate-item">
-                                            <div className="post-image" style={{backgroundImage: 'url(https://cdn.tuoitre.vn/thumb_w/640/2019/1/16/photo-1-15476236955311643255083.jpg)'}}>
-                                                <img src="../../assets/img/125x130.jpg" alt="" />
-                                                <div className="like  fa fa-heart-o" />
-                                            </div>
-                                            <div className="post-content">
-                                                <div className="top"><span>2,66 tỷ</span>  <span className="#" style={{color: '#189655'}}>60,78m<sub className="subtop">2</sub></span>  <span className="#" style={{color: '#189655'}}>150,0m<sub className="subtop">2</sub> <em style={{fontWeight: 'normal'}}>sàn</em> </span> </div>
-                                                <div className="location">711014P0001- Hồ Thị Kỷ, Phường 4, Quận 6, Hồ Chí Minh</div>
-                                                <div className="actions">
-                                                <button className="btn">
-                                                    <img src="../../assets/img/bxs-edit.svg" alt="" />
-                                                </button>
-                                                <button className="btn">
-                                                    <img src="../../assets/img/earth.svg" alt="" />
-                                                </button>
-                                                <button className="btn">
-                                                    <img src="../../assets/img/baseline-map-24px.svg" alt="" />
-                                                </button>
-                                                </div>
-                                                <div className="map">
-                                                <img src="../../assets/uploads/map.jpg" alt="" />
-                                                </div>
-                                                <div className="info -top">
-                                                <span>Nhà xây dựng</span>  <span>Bàn giao T2.2010</span>  <span>Đã hoàn công</span>  <span>Sổ hồng</span>
-                                                </div>
-                                                <div className="info -ban">
-                                                <span className="status -ban">Bán</span>  <span>Avalue: <strong>2,65 tỷ</strong></span>  <span>Arent: <strong>7,5 triệu/ Tháng</strong></span>
-                                                </div>
-                                                <div className="info">
-                                                <span><strong>47,2 triệu/m</strong> <sub className="subtop">2</sub></span>  <span>Trả trước: <strong>700 triệu</strong></span><span>Thanh toán: <strong>13,2 triệu/tháng</strong></span>
-                                                </div>
-                                                <div className="location"> <span>Hẻm xe hơi</span> <span>Đường vào 4,5m (LG 5,0m)</span></div>
-                                                <div className="bottom-info">
-                                                <span>
-                                                    <img src="../../assets/img/cauthang.svg" alt="" /> 3 tầng
-                                                </span>
-                                                <span>
-                                                    <img src="../../assets/img/icons/bx-bed.svg" alt="" /> 2
-                                                </span>
-                                                <span>
-                                                    <img src="../../assets/img/icons/bx-bath.svg" alt="" /> 2
-                                                </span>
-                                                <span>
-                                                    <img src="../../assets/img/icons/location.svg" alt="" /> Đông Nam
-                                                </span>
-                                                </div>
-                                            </div>
-                                            </div>      
-                                        </div>
-                                        <div className="item-details__actions">
-                                            <div className="action-buttons-bottom">
-                                            <a href="#" className="btn -marked">
-                                                <span className="fa fa-star icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -comment">
-                                                <span className="fa fa-comment-o icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -liked">
-                                                <span className="-ap  icon-like2 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -share">
-                                                <span className="-ap  icon-share4 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap  icon-mail6 icon" /> 10
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap   icon-add_shopping_cart icon" />
-                                            </a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                {/* nha rieng end */}
-                                <div className="rp-search-result-item">
-                                    <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
-                                    <div className="sr-item__poster">
-                                        <div className="poster--avatar"><a href="#"><img src="../../../assets/img/1pcs-hot-kawaii-small-teddy-bears-plush-toys.png" alt="" /></a></div>
-                                        <div className="box-user">
-                                        <div className="avatar" style={{backgroundImage: 'url(https://www.bitgab.com/uploads/profile/files/default.png)'}}>
-                                        </div>
-                                        <div className="name">Thanh Huynh</div>
-                                        <div className="pos">
-                                            <span className="icon chuyengia">
-                                            <img src="../../assets/img/handshake.svg" alt="" />
-                                            </span>
-                                            <span className="thin">[Chuyên gia</span> <span className="rating">3,5+ <span className="fa fa-star" /><span className="fa fa-star" /><span className="fa fa-star-half-o" /></span>
-                                            ]
-                                        </div>
-                                        <div className="friend pos">
-                                            <span className="icon">
-                                            <img src="../../assets/img/add-friend.svg" alt="" />
-                                            </span>
-                                            Bạn chung với <span className="thick">Trung Hoàng</span>, <span className="thick">Thuong Huỳnh</span>.
-                                        </div>
-                                        <div className="actions">
-                                            <button className="btn">Nhắn tin</button>
-                                            <button className="btn">Kết bạn</button>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <div className="sr-item__details">
-                                        <div className="item-details__container">
-                                        <div className="item-details__title">
-                                            <div className="ids-title__content">
-                                            <div className="ids-title--header d-flex"><a className="title--name" href="#">Asset data team</a>
-                                                <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 3,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
-                                            </div>
-                                            <p className="mb-0 ids-title--category">đã đăng một <a className="ids-title--category" href="/ket-qua/thong-tin">Con đường</a> </p>
-                                            <p className="mb-0 ids-title--date-posted">10 ngày trước</p>
-                                            </div>
-                                        </div>
-                                        <div className="item-details__post">
-                                            <div className="realestate-item">
-                                            <div className="post-image" style={{backgroundImage: 'url(https://cdn.tuoitre.vn/thumb_w/640/2019/1/16/photo-1-15476236955311643255083.jpg)'}}>
-                                                <img src="../../assets/img/125x130.jpg" alt="" />
-                                                <div className="like actived fa fa-heart-o" />
-                                            </div>
-                                            <div className="post-content" style={{paddingBottom: '5px'}}>
-                                                <div className="top">Madison 15 Thi Sách</div>
-                                                <div className="location">711014P0001- Hồ Thị Kỷ, Phường 4, Quận 6, Hồ Chí Minh</div>
-                                                <div className="actions">
-                                                <button className="btn">
-                                                    <img src="../../assets/img/bxs-edit.svg" alt="" />
-                                                </button>
-                                                <button className="btn">
-                                                    <img src="../../assets/img/earth.svg" alt="" />
-                                                </button>
-                                                <button className="btn">
-                                                    <img src="../../assets/img/baseline-map-24px.svg" alt="" />
-                                                </button>
-                                                </div>
-                                                <div className="map">
-                                                <img src="../../assets/uploads/map.jpg" alt="" />
-                                                </div>
-                                                <div className="info -top">
-                                                <span>Sản phẩm của <strong style={{color: '#3b63a1'}}>Novoland</strong></span>  <span>Bàn giao T2.2010</span>
-                                                </div>
-                                                <div className="info -top">
-                                                <span>Đang làm móng</span>  <span>Giấy phép xây dựng</span>
-                                                </div>
-                                                <div className="info -ban">
-                                                <span>Avalue: <strong>24.567m <sub className="subtop">2</sub></strong></span>  
-                                                <span><strong>2 Blocks</strong></span>
-                                                <span><strong>1.200 CH</strong></span>
-                                                <span><strong>- - SH</strong></span>
-                                                <span><strong>120 OFT</strong></span>
-                                                <span><strong>8.467m <sub className="subtop">2</sub></strong></span>
-                                                <span><strong>TMDV</strong></span>
-                                                </div>
-                                                <div className="info">
-                                                <span><strong>47,2 triệu/m</strong> <sub className="subtop">2</sub></span>  <span>Trả trước: <strong>700 triệu</strong></span><span>Thanh toán: <strong>13,2 triệu/tháng</strong></span>
-                                                </div>
-                                            </div>
-                                            </div>      
-                                        </div>
-                                        <div className="item-details__actions">
-                                            <div className="action-buttons-bottom">
-                                            <a href="#" className="btn -marked">
-                                                <span className="fa fa-star icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -comment">
-                                                <span className="fa fa-comment-o icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -liked">
-                                                <span className="-ap  icon-like2 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -share">
-                                                <span className="-ap  icon-share4 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap  icon-mail6 icon" /> 10
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap   icon-add_shopping_cart icon" />
-                                            </a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="rp-search-result-item">
-                                    <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
-                                    <div className="sr-item__poster">
-                                        <div className="poster--avatar"><a href="#"><img src="../../../assets/img/1pcs-hot-kawaii-small-teddy-bears-plush-toys.png" alt="" /></a></div>
-                                    </div>
-                                    <div className="sr-item__details">
-                                        <div className="item-details__container">
-                                        <div className="item-details__title">
-                                            <div className="ids-title__content">
-                                            <div className="ids-title--header d-flex"><a className="title--name" href="#">Asset data team</a>
-                                                <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 3,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
-                                            </div>
-                                            <p className="mb-0 ids-title--category">đã đăng một <a className="ids-title--category" href="/ket-qua/thong-tin">Con đường</a> </p>
-                                            <p className="mb-0 ids-title--date-posted">10 ngày trước</p>
-                                            </div>
-                                        </div>
-                                        <div className="item-details__post box-info-line">
-                                            <div className="row">
-                                            <div className="col-sm-4 col-xs-12">
-                                                <div className="name">Lý Chính Thắng</div>
-                                                <div className="location">Phường 7, Quận Tân Bình, Hồ Chí Minh</div>
-                                                <p className="info-left">Bất động sản trên đường này</p>
-                                                <div className="info-row">
-                                                <span>
-                                                    <span className="value">12</span>
-                                                    <span className="key">đất nền</span>
-                                                </span>
-                                                <span>
-                                                    <span className="value">12</span>
-                                                    <span className="key">căn hộ</span>
-                                                </span>
-                                                </div>  
-                                            </div>
-                                            <div className="col-sm-4 col-xs-12">
-                                                <div className="map">
-                                                <img src="../../assets/uploads/map.jpg" alt="" />
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-4 col-xs-12 box-right">
-                                                <p className="info-right">Phân đoạn: <span style={{color: '#707070'}}>Toàn đường</span></p>
-                                                <div className="info-line">
-                                                <span>Hiện hữu 15,5m</span>
-                                                <span>Lộ giới 15,5m</span>
-                                                </div>
-                                                <p className="info-right">Lộ giới 15,5m</p>
-                                                <p className="info-right">Avalue: 140tr/m <span className="subtop">2</span></p>
-                                                <p className="info-right">Gợi ý kinh doanh: Làm khách sạn</p>
-                                            </div>
-                                            </div>   
-                                        </div>
-                                        <div className="item-details__actions">
-                                            <div className="action-buttons-bottom">
-                                            <a href="#" className="btn -marked">
-                                                <span className="fa fa-star icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -comment">
-                                                <span className="fa fa-comment-o icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -liked">
-                                                <span className="-ap  icon-like2 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -share">
-                                                <span className="-ap  icon-share4 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap  icon-mail6 icon" /> 10
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap   icon-add_shopping_cart icon" />
-                                            </a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="rp-search-result-item">
-                                    <div className="box-company-info">
-                                    <div className="row">
-                                        <div className="col-sm-8 col-xs-12">
-                                        <div className="company-info">
-                                            <div className="avatar">
-                                            <span className="img" style={{backgroundImage: 'url(https://dongphucocean.vn/wp-content/uploads/2018/12/logo-dong-phuc-ocean.jpg)'}}>
-                                            </span>
-                                            </div>
-                                            <div className="name">Song Kim Land</div>
-                                            <div className="info">89 Lý Chính Thắng Phường 7, Quận Tân Bình, Hồ Chí Minh</div>
-                                            <div className="info">(+84) 098176761</div>
-                                            <div className="rating-box">
-                                            <div className="rating">
-                                                <span className="star fa fa-star -good" />
-                                                <span className="star fa fa-star -good" />
-                                                <span className="star fa fa-star" />
-                                                <span className="star fa fa-star" />
-                                                <span className="star fa fa-star" />
-                                            </div>
-                                            <span className="total">540 total reviews</span>
-                                            </div>
-                                            <div className="actions">
-                                            <button className="btn btn-like">
-                                                <span className="-ap  icon-like2 icon" /> Thích
-                                            </button>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div className="col-sm-4 col-xs-12">
-                                        <div className="map-canvas">
-                                            <img src="../../assets/uploads/map.jpg" alt="" />
-                                        </div>
-                                        <div className="action-buttons-bottom">
-                                            <a href="#" className="btn -comment">
-                                            <span className="fa fa-comment-o icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -liked">
-                                            <span className="-ap  icon-like2 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -share">
-                                            <span className="-ap  icon-share4 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                            <span className="-ap  icon-mail6 icon" /> 10
-                                            </a>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="rp-search-result-item">
-                                    <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
-                                    <div className="sr-item__poster">
-                                        <div className="poster--avatar"><a href="#"><img src="../../../assets/img/1pcs-hot-kawaii-small-teddy-bears-plush-toys.png" alt="" /></a></div>
-                                    </div>
-                                    <div className="sr-item__details">
-                                        <div className="item-details__container">
-                                        <div className="item-details__title">
-                                            <div className="ids-title__content">
-                                            <div className="ids-title--header d-flex"><a className="title--name" href="#">Asset data team</a>
-                                                <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 3,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
-                                            </div>
-                                            <p className="mb-0 ids-title--category">đã đăng một <a className="ids-title--category" href="/ket-qua/thong-tin">Con đường</a> </p>
-                                            <p className="mb-0 ids-title--date-posted">10 ngày trước</p>
-                                            </div>
-                                        </div>
-                                        <div className="item-details__post box-info-line">
-                                            <div className="box-info-tn">
-                                            <div className="icon">
-                                                <img src="../../assets/img/home/googlepdf@3x.jpg" alt="" />
-                                            </div>
-                                            <div className="title">Cần thông tin pháp lý khi mua nhà tại quận 2? </div>
-                                            <div className="description">Chiều cao, cân nặng hiển thị thông tin từ lịch sử ra. Cho phép sửa đổi và lưu lại thành lịch sử (Thong tin lưu cùng chỗ với thông tin thể lực của bệnh nhân)Bổ sung thêm cột: Thời gian tạo.Danh sách bệnh nhân được order mặc định theo thời gian tạo, từ mới nhất xuống cũ nhất. Khi tạo mới 1 bệnh nhân, mặc định bệnh nhân mới được tạo sẽ được sắp xếp ngày lên đầu tiên</div>
-                                            </div>  
-                                        </div>
-                                        <div className="item-details__actions">
-                                            <div className="action-buttons-bottom">
-                                            <a href="#" className="btn -marked">
-                                                <span className="fa fa-star icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -comment">
-                                                <span className="fa fa-comment-o icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -liked">
-                                                <span className="-ap  icon-like2 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -share">
-                                                <span className="-ap  icon-share4 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap  icon-mail6 icon" /> 10
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap   icon-add_shopping_cart icon" />
-                                            </a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="rp-search-result-item">
-                                    <div className="search-result__item-container d-flex"><img className="sr-item__modal" src="../../../assets/img/icon-modal.png" />
-                                    <div className="sr-item__poster">
-                                        <div className="poster--avatar"><a href="#"><img src="../../../assets/img/1pcs-hot-kawaii-small-teddy-bears-plush-toys.png" alt="" /></a></div>
-                                    </div>
-                                    <div className="sr-item__details">
-                                        <div className="item-details__container">
-                                        <div className="item-details__title">
-                                            <div className="ids-title__content">
-                                            <div className="ids-title--header d-flex"><a className="title--name" href="#">Asset data team</a>
-                                                <div className="title--rate d-flex align-items-center"><span>[Chung cư </span><span className="title_rate--highlight"> 3,5+ </span><img src="../../assets/img/star.png" alt="" />]</div>
-                                            </div>
-                                            <p className="mb-0 ids-title--category">đã đăng một <a className="ids-title--category" href="/ket-qua/thong-tin">Hỏi đáp</a> </p>
-                                            <p className="mb-0 ids-title--date-posted">57 ngày trước</p>
-                                            </div>
-                                        </div>
-                                        <div className="item-details__post box-info-line">
-                                            <div className="box-info-tn">
-                                            <div className="icon">
-                                                <img src="../../assets/img/hoidap.svg" alt="" />
-                                            </div>
-                                            <div className="title">Cần thông tin pháp lý khi mua nhà tại quận 2? </div>
-                                            <div className="description">Chiều cao, cân nặng hiển thị thông tin từ lịch sử ra. Cho phép sửa đổi và lưu lại thành lịch sử (Thong tin lưu cùng chỗ với thông tin thể lực của bệnh nhân)Bổ sung thêm cột: Thời gian tạo.Danh sách bệnh nhân được order mặc định theo thời gian tạo, từ mới nhất xuống cũ nhất. Khi tạo mới 1 bệnh nhân, mặc định bệnh nhân mới được tạo sẽ được sắp xếp ngày lên đầu tiên</div>
-                                            </div>  
-                                        </div>
-                                        <div className="item-details__actions">
-                                            <div className="action-buttons-bottom">
-                                            <a href="#" className="btn -marked">
-                                                <span className="fa fa-star icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -comment">
-                                                <span className="fa fa-comment-o icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -liked">
-                                                <span className="-ap  icon-like2 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -share">
-                                                <span className="-ap  icon-share4 icon" /> 40
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap  icon-mail6 icon" /> 10
-                                            </a>
-                                            <a href="#" className="btn -mail">
-                                                <span className="-ap   icon-add_shopping_cart icon" />
-                                            </a>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                                <div className="rp-search-result__pagination">
-                                <div className="search-result__pagination-container container">
-                                    <div className="search-result__pagination-content d-flex align-items-center justify-content-center justify-content-sm-end"><a className="sr-pagination--btn sr-pagination--previous" href="#">Trước</a>
-                                    <div className="sr-pagination__items d-flex align-items-center"><a className="sr-pagination--item is-actived" href="#">1</a><a className="sr-pagination--item" href="#">2</a><a className="sr-pagination--item" href="#">3</a><a className="sr-pagination--item" href="#">4</a><a className="sr-pagination--item" href="#">5</a></div><a className="sr-pagination--btn sr-pagination--next" href="#">Tiếp</a>
-                                    </div>
-                                </div>
-                                </div>
+                                {/* pagination start */}
+                                    <Pagination 
+                                        // totalRecords={ totalSearchResult }
+                                        pageLimit={ 10 }
+                                        pageNeighbours={ 1 }
+                                        onPageChanged={ this.onPageChanged }
+                                    />
+                                {/* pagination end */}
                             </div>
                             </div>
-
-
-
                         </div>
                         <div className="result-pages__footer layout-footer">
                             <div className="result-pages__footer-container">
@@ -850,7 +342,13 @@ class Search extends Component {
 }
 const mapStateToProps = state => {
     return {
-        data: state.search.listSearch 
+        data: state.search.listSearch ,
+        totalResult: state.search.totalResult
     }
 }
-export default connect(mapStateToProps, null)(Search);
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         getTotalSearchResult: (keyword, type) => dispatch(countSearchResult(keyword, type))
+//     }
+// }
+export default connect(mapStateToProps)(Search);

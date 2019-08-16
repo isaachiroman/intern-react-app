@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { countSearchResult } from '../actions/search';
+
 
 class Autocomplete extends Component {
     static propTypes = {
@@ -49,7 +51,6 @@ class Autocomplete extends Component {
     }
 
     onKeyDown = (e) => {
-        // console.log(e.target.value.trim().length)
         const { filteredSuggestions, activeSuggestion } = this.state;
         if ( e.target.value.trim().toLowerCase().length ) {
             this.setState({
@@ -60,6 +61,7 @@ class Autocomplete extends Component {
         this.props.onSearch(e.target.value)
         if (e.keyCode === 13) {
             this.props.history.push(this.props.to);
+            this.props.getTotalSearchResult(e.target.value);
         }
 
         return this.setState({
@@ -70,7 +72,7 @@ class Autocomplete extends Component {
     sugesstion = (suggestions) => {
         if(this.state.filteredSuggestions && this.state.searchInput) {
             return this.props.suggestions.map((suggestion, index) => { 
-                return  <li key={index}>{suggestion.name}</li> 
+                return  <li key={ index }>{ suggestion.name }</li> 
             }); 
         }
         return ;
@@ -87,8 +89,14 @@ class Autocomplete extends Component {
                         { this.sugesstion(this.props.suggestions) }
                     </ul>
                 </React.Fragment>
-                
         );
     }
 }
-export default withRouter(Autocomplete);
+const mapDispatchToProps = dispatch => {
+    return {
+        getTotalSearchResult: (keyword, type) => {
+            dispatch(countSearchResult(keyword, type))
+        }
+    }
+}
+export default withRouter(connect(null, mapDispatchToProps)(Autocomplete));

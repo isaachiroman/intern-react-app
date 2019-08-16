@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../page/Nav';
 import HomeInput from '../page/HomeInput';
 import HeaderHome from '../layout/headers/HeaderHome';
+
 class Homepage extends Component {
     render() {
         return (
@@ -103,7 +104,6 @@ class Homepage extends Component {
                         </div>
                     </div>
                     </div>
-
             </>
         );
     }
